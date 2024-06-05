@@ -44,6 +44,7 @@ int main(void) {
         }
         line++;
     }
+    fclose(fp);
 
     struct Token *t = hashtable_remove(&ht, "VERSION");
     if (t != NULL) free(t);

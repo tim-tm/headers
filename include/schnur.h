@@ -76,6 +76,16 @@ size_t string_len(const char *str);
  */
 char *string_append(const char *str, const char *append);
 
+/**
+ *  string_n_copy
+ *
+ *  Copy at most 'n' bytes from 'src' to 'dest'.
+ *  Return:
+ *      - A pointer to 'dest' on success
+ *      - NULL on failure
+ */
+char *string_n_copy(char *dest, const char *src, size_t n);
+
 #ifdef SCHNUR_IMPLEMENTATION
 #include <stdlib.h>
 
@@ -110,6 +120,17 @@ char *string_append(const char *str, const char *append) {
     }
     new_str[str_len+append_len] = '\0';
     return new_str;
+}
+
+char *string_n_copy(char *dest, const char *src, size_t n) {
+    if (dest == NULL || src == NULL) return NULL;
+    size_t src_len = string_n_len(src, n);
+    if (src_len == 0) return dest;
+
+    for (size_t i = 0; i < src_len; ++i) {
+        dest[i] = src[i];
+    }
+    return dest;
 }
 
 #endif // SCHNUR_IMPLEMENTATION
