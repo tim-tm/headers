@@ -41,7 +41,7 @@
 
 #define LOGGER_LOG(level, ...) logger_log_file(stdout, (level), ##__VA_ARGS__)
 
-#if _MSC_VER
+#if defined(_WIN32) || defined(WIN32)
 #include <intrin.h>
 #define LOGGER_DEBUG_BREAK() __debugbreak()
 #else
