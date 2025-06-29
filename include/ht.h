@@ -83,11 +83,16 @@ void *ht_get_value(ht_state *state, const char *key) {
 
 const char *ht_code_to_str(ht_code code) {
     switch (code) {
-        case HT_CODE_SUCCESS: return "SUCCESS";
-        case HT_CODE_ERROR_INVALID_INPUT: return "ERROR: INVALID_INPUT";
-        case HT_CODE_ERROR_HASH_FUNC: return "ERROR: HASH_FUNC";
-        case HT_CODE_ERROR_TABLE_FULL: return "ERROR: TABLE_FULL";
-        default: return "UNKNOWN";
+    case HT_CODE_SUCCESS:
+        return "SUCCESS";
+    case HT_CODE_ERROR_INVALID_INPUT:
+        return "ERROR: INVALID_INPUT";
+    case HT_CODE_ERROR_HASH_FUNC:
+        return "ERROR: HASH_FUNC";
+    case HT_CODE_ERROR_TABLE_FULL:
+        return "ERROR: TABLE_FULL";
+    default:
+        return "UNKNOWN";
     }
 }
 

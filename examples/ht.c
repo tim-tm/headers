@@ -1,5 +1,5 @@
-#include <openssl/sha.h>
 #include <openssl/crypto.h>
+#include <openssl/sha.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -41,7 +41,7 @@ int main(void) {
         printf("Failed to get value from hashtable!\n");
         return 1;
     }
-    int get_hello = *((int*)result);
+    int get_hello = *((int *)result);
     printf("Got value from hashtable: %d\n", get_hello);
     return 0;
 }
