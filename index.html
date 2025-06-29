@@ -1,6 +1,29 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <link rel="stylesheet" href="index.css">
+</head>
 <body>
-<script src="index.js"></script>
+    <div>
+        <h1>Hashtable</h1>
+        <ul id="ht"></ul>
+        <div class="opt">
+            <label for="ht_insert_key">Key</label>
+            <input type="text" id="ht_insert_key" value="Hello" />
+            <label for="ht_insert_value">Value</label>
+            <input type="number" id="ht_insert_value" value=1337 />
+            <button id="ht_button_insert">Insert</button>
+        </div>
+        <div class="opt">
+            <label for="ht_get_key">Key</label>
+            <input type="text" id="ht_get_key" value="Hello" name="Key" />
+            <button id="ht_button_get">Get</button>
+        </div>
+    </div>
+    <div>
+        <h1>Hexdump</h1>
+        <ul id="dump" class="dump"></ul>
+    </div>
+    <script src="index.js"></script>
 </body>
 </html>

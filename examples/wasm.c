@@ -1,17 +1,22 @@
+#include <stddef.h>
+
 #define HT_IMPLEMENTATION
 #include "ht.h"
 
 #define DATA_LEN 512
 
-unsigned char *hash_function(const char *key, size_t len) {
+uint32_t hash_function(const char *key, uint32_t len) {
     if (key == NULL)
-        return NULL;
+        return 0;
 
-    static unsigned char digest[HT_MAX_DIGEST_LEN];
-    for (size_t i = 0; i < len - 1; i++) {
-        digest[i] = key[i] + key[i + 1];
+    // Implementation of Daniel J. Bernstein's djb2-hash
+    // (https://theartincode.stanis.me/008-djb2/)
+
+    uint32_t hash = 5381;
+    for (uint32_t i = 0; i < len - 1; i++) {
+        hash = ((hash << 5) + hash) + key[i];
     }
-    return digest;
+    return hash;
 }
 
 static int *data[DATA_LEN];

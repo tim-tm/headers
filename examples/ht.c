@@ -1,7 +1,6 @@
 #include <openssl/crypto.h>
 #include <openssl/sha.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 #define HT_MAX_DIGEST_LEN SHA512_DIGEST_LENGTH
 #define HT_IMPLEMENTATION
@@ -9,31 +8,26 @@
 
 #define DATA_LEN 256
 
-unsigned char *hash_function(const char *key, size_t len) {
+uint32_t hash_function(const char *key, uint32_t len) {
     if (key == NULL)
-        return NULL;
+        return 0;
 
-    unsigned char *digest = malloc(SHA512_DIGEST_LENGTH);
-    if (digest == NULL)
-        return NULL;
-
+    unsigned char digest[SHA512_DIGEST_LENGTH];
     if (SHA512((unsigned char *)key, len, digest) == NULL)
-        return NULL;
-    return digest;
-}
+        return 0;
 
-void hash_free_function(void *ptr) {
-    // ptr will always be != NULL
-    free(ptr);
+    uint32_t hash = 0;
+    for (uint32_t i = 0; i < SHA512_DIGEST_LENGTH; i++) {
+        hash += digest[i];
+    }
+    return hash;
 }
 
 int main(void) {
     static int *data[DATA_LEN];
     ht_state table = {.data = (void **)data,
                       .data_len = DATA_LEN,
-                      .hash_func = hash_function,
-                      // this will be ignored if set to NULL
-                      .hash_free_func = hash_free_function};
+                      .hash_func = hash_function};
 
     int hello = 1337;
     ht_code code;
