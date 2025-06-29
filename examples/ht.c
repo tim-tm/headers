@@ -22,11 +22,18 @@ unsigned char *hash_function(const char *key, size_t len) {
     return digest;
 }
 
+void hash_free_function(void *ptr) {
+    // ptr will always be != NULL
+    free(ptr);
+}
+
 int main(void) {
     static int *data[DATA_LEN];
     ht_state table = {.data = (void **)data,
                       .data_len = DATA_LEN,
-                      .hash_func = hash_function};
+                      .hash_func = hash_function,
+                      // this will be ignored if set to NULL
+                      .hash_free_func = hash_free_function};
 
     int hello = 1337;
     ht_code code;

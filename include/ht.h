@@ -12,11 +12,13 @@
 #endif // !HT_MAX_KEY_LEN
 
 typedef unsigned char *(*ht_hash_function)(const char *, size_t);
+typedef void (*ht_hash_free)(void *);
 
 typedef struct s_ht_state {
     void **data;
     size_t data_len;
     ht_hash_function hash_func;
+    ht_hash_free hash_free_func;
 } ht_state;
 
 typedef enum e_ht_code {
@@ -34,7 +36,7 @@ const char *ht_code_to_str(ht_code code);
 
 static size_t ht_str_len(const char *str) {
     size_t len = 0;
-    while (str[len] != '\0' && len <= HT_MAX_KEY_LEN) {
+    while (len < HT_MAX_KEY_LEN && str[len] != '\0') {
         len++;
     }
     return len;
@@ -43,7 +45,7 @@ static size_t ht_str_len(const char *str) {
 static size_t ht_compute_index(unsigned char *hash, size_t data_len) {
     size_t sum = 0;
     size_t n = 0;
-    while (hash[n] != '\0' && n <= HT_MAX_DIGEST_LEN) {
+    while (n < HT_MAX_DIGEST_LEN && hash[n] != '\0') {
         sum += hash[n];
         n++;
     }
@@ -62,6 +64,10 @@ ht_code ht_insert(ht_state *state, const char *key, void *value) {
     }
 
     size_t idx = ht_compute_index(hash, state->data_len);
+    if (state->hash_free_func != NULL) {
+        state->hash_free_func(hash);
+    }
+
     state->data[idx] = value;
     return HT_CODE_SUCCESS;
 }
@@ -78,6 +84,10 @@ void *ht_get_value(ht_state *state, const char *key) {
     }
 
     size_t idx = ht_compute_index(hash, state->data_len);
+    if (state->hash_free_func != NULL) {
+        state->hash_free_func(hash);
+    }
+
     return state->data[idx];
 }
 
